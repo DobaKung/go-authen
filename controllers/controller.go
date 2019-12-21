@@ -70,6 +70,8 @@ func LoginUser(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetMe(w http.ResponseWriter, r *http.Request) {
-	response := utils.NewMessage(true, 0, "this is me", nil)
+	userId := r.Context().Value("user")
+	// TODO: Respond with UserPayload
+	response := utils.NewMessage(true, 0, "this is me", userId)
 	utils.Respond(w, http.StatusOK, response)
 }
