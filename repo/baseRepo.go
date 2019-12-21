@@ -20,16 +20,16 @@ func init() {
 
 	// Store env in variables
 	dbUser, dbPwd, dbName := os.Getenv("db_user"), os.Getenv("db_pwd"), os.Getenv("db_name")
-	dbHost := os.Getenv("db_host")
+	dbHost, dbPort := os.Getenv("db_host"), os.Getenv("db_port")
 
-	dbUri := fmt.Sprintf("%s:%s@(%s)/%s?charset=utf8&parseTime=True&loc=Local", dbUser, dbPwd, dbHost, dbName)
+	dbUri := fmt.Sprintf("%s:%s@(%s:%s)/%s?charset=utf8&parseTime=True&loc=Local", dbUser, dbPwd, dbHost, dbPort, dbName)
 	log.Println("Connecting to DB " + dbName + " as user " + dbUser)
 
 	// Connect to DB
 	var dbErr error
 	db, dbErr = gorm.Open("mysql", dbUri)
 	if dbErr != nil {
-		log.Panic("Cannot connect to DB")
+		log.Panic(dbErr.Error())
 	}
 
 	db.AutoMigrate(&User{})
