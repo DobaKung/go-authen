@@ -64,7 +64,7 @@ func Login(email, pwd string) (token string, err error) {
 	// Generate JWT
 	var jwtErr error
 	tk := jwt.NewWithClaims(jwt.GetSigningMethod("HS256"), Token{UserId: user.ID})
-	token, jwtErr = tk.SignedString([]byte(os.Getenv("token_pwd")))
+	token, jwtErr = tk.SignedString([]byte(os.Getenv("token_secret")))
 	if jwtErr != nil {
 		log.Println("User.Login: " + jwtErr.Error())
 		return "", ErrGeneratingToken
